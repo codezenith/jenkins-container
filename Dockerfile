@@ -16,7 +16,7 @@ ENV JENKINS_UC_DOWNLOAD $JENKINS_UC/download
 
 
 ENV HTTPS_PORT 443
-ENV JAVA_OPTS -Dhudson.footerURL=http://codezenith.com -Djava.util.logging.config.file=${JENKINS_HOME}/log.properties
+ENV JAVA_OPTS -Dhudson.footerURL=http://codezenith.com -Djava.util.logging.config.file=${JENKINS_HOME}/log.properties -Dpermissive-script-security.enabled=true
 ENV JENKINS_OPTS --httpsPort=${HTTPS_PORT} --httpsKeyStore=${KEYSTORE}/keystore.jks --httpsKeyStorePassword=${KST_PASS}
 ENV JENKINS_SLAVE_AGENT_PORT 5000
 
