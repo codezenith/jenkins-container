@@ -6,6 +6,8 @@ ENV KEYSTORE /var/lib/jenkins
 
 
 ARG KST_PASS
+ARG CERT
+ARG DOCKER
 
 # Set to default values
 # https://github.com/jenkinsci/docker#setting-update-centers
@@ -26,12 +28,14 @@ COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY log.properties ${JENKINS_HOME}/
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
+USER root
 
+ADD cacerts/*.crt /tmp/
+ADD get-docker.sh /tmp
 
-# Install additional packages
-#USER root
-#RUN apt-get update && apt-get install -y ruby make
-#USER jenkins
+# Run conditional docker
+RUN if [ "$CERT" == "true" ] ; then mv /tmp/*.crt /usr/local/share/ca-certificates/ && update-ca-certificates ; fi
+RUN if [ "$DOCKER" == "true" ] ; then chmod +x /tmp/get-docker.sh && /bin/sh /tmp/get-docker.sh ; fi
 
 
 # Install plugins defined in plugins.txt
@@ -40,6 +44,6 @@ RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 EXPOSE ${HTTPS_PORT}
 EXPOSE ${JENKINS_SLAVE_AGENT_PORT}
 
-USER root
+USER jenkins
 
 ENTRYPOINT [ "/usr/local/bin/jenkins.sh" ]
