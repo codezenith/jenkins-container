@@ -23,13 +23,13 @@ jobs:
         run: docker build -t "${{ env.CONTAINER_NAME }}" --build-arg KST_PASS="${{ secrets.KST_PASS }}" --build-arg DOCKER="true" --build-arg CERT="true" .
         
       - name: Tag Image
-        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:${{ GITHUB_SHA }}"
+        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ GITHUB_SHA }}"
         
       - name: Tag Latest
-        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:latest"
+        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:latest"
         
       - name: Push Image
         run: |
-          docker push "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:${{ GITHUB_SHA }}"
-          docker push "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:latest"
+          docker push "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ GITHUB_SHA }}"
+          docker push "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:latest"
 
