@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONTAINER_NAME: 'jenkins-base'
-      CATEGORY: util
+      CATEGORY: jenkins-base
       GH_REGISTRY: docker.pkg.github.com/codezenith
       USERNAME: DerPauli
 
