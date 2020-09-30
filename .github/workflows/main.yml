@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONTAINER_NAME: 'jenkins-base'
+      CATEGORY: util
       GH_REGISTRY: docker.pkg.github.com/codezenith
       USERNAME: DerPauli
 
@@ -27,13 +28,13 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ env.USERNAME }}" --password-stdin
         
       - name: Tag Image
-        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
+        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CATEGORY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
         
       - name: Tag Latest
-        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:latest"
+        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CATEGORY }}/${{ env.CONTAINER_NAME }}:latest"
         
       - name: Push Image
         run: |
-          docker push "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
-          docker push "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:latest"
+          docker push "${{ env.GH_REGISTRY }}/${{ env.CATEGORY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
+          docker push "${{ env.GH_REGISTRY }}/${{ env.CATEGORY }}/${{ env.CONTAINER_NAME }}:latest"
 
