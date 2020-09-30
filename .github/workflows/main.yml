@@ -6,35 +6,35 @@ on:
   pull_request:
     branches: [ master ]
 
-#env:
-#  CONTAINER_NAME: 'jenkins-base'
-#  GH_REGISTRY: docker.pkg.github.com/codezenith/repository-name
+env:
+  CONTAINER_NAME: 'jenkins-base'
+  GH_REGISTRY: docker.pkg.github.com/codezenith/repository-name
 
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Create env vars
-        id: CONTAINER_NAME
-        run: |
-          echo "::set-env name=CONTAINER_NAME::'jenkins-base'"
-          echo "::set-env name=GH_REGISTRY::'docker.pkg.github.com/codezenith/repository-name'"
+      #- name: Create env vars
+      #  id: CONTAINER_NAME
+      #  run: |
+      #    echo "::set-env name=CONTAINER_NAME::'jenkins-base'"
+      #    echo "::set-env name=GH_REGISTRY::'docker.pkg.github.com/codezenith/repository-name'"
 
       - name: Get VCS
         uses: actions/checkout@v2
         
       - name: Build Dockerfile
-        run: docker build -t ${{ env.CONTAINER_NAME }} --build-arg KST_PASS="${{ secrets.KST_PASS }}" --build-arg DOCKER="true" --build-arg CERT="true" .
+        run: docker build -t "${{ env.CONTAINER_NAME }}" --build-arg KST_PASS="${{ secrets.KST_PASS }}" --build-arg DOCKER="true" --build-arg CERT="true" .
         
       - name: Tag Image
-        run: docker tag ${{ env.CONTAINER_NAME }} ${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:${{ GITHUB_SHA }}
+        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:${{ GITHUB_SHA }}"
         
       - name: Tag Latest
-        run: docker tag ${{ env.CONTAINER_NAME }} ${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:latest
+        run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:latest"
         
       - name: Push Image
         run: |
-          docker push ${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:${{ GITHUB_SHA }}
-          docker push ${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:latest
+          docker push "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:${{ GITHUB_SHA }}"
+          docker push "${{ env.GH_REGISTRY }}/${{ CONTAINER_NAME }}:latest"
 
