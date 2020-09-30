@@ -1,4 +1,4 @@
-name: CI
+name: Build Jenkins Docker
 
 on:
   push:
@@ -13,6 +13,7 @@ jobs:
     env:
       CONTAINER_NAME: 'jenkins-base'
       GH_REGISTRY: docker.pkg.github.com/codezenith
+      USERNAME: DerPauli
 
     steps:
 
@@ -21,6 +22,9 @@ jobs:
         
       - name: Build Dockerfile
         run: docker build -t "${{ env.CONTAINER_NAME }}" --build-arg KST_PASS="${{ secrets.KST_PASS }}" --build-arg DOCKER="true" --build-arg CERT="true" .
+        
+      - name: Authenticate with registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ env.USERNAME }}" --password-stdin
         
       - name: Tag Image
         run: docker tag "${{ env.CONTAINER_NAME }}" "${{ env.GH_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
