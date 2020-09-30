@@ -6,20 +6,15 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  CONTAINER_NAME: 'jenkins-base'
-  GH_REGISTRY: docker.pkg.github.com/codezenith/repository-name
 
 jobs:
   main:
     runs-on: ubuntu-latest
-    steps:
+    env:
+      CONTAINER_NAME: 'jenkins-base'
+      GH_REGISTRY: docker.pkg.github.com/codezenith
 
-      #- name: Create env vars
-      #  id: CONTAINER_NAME
-      #  run: |
-      #    echo "::set-env name=CONTAINER_NAME::'jenkins-base'"
-      #    echo "::set-env name=GH_REGISTRY::'docker.pkg.github.com/codezenith/repository-name'"
+    steps:
 
       - name: Get VCS
         uses: actions/checkout@v2
