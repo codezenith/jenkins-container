@@ -14,7 +14,7 @@ jobs:
       CONTAINER_NAME: cz-jenkins
       CATEGORY: jenkins-base
       GH_REGISTRY: docker.pkg.github.com/codezenith
-      USERNAME: DerPauli
+      USERNAME: codezenith
 
     steps:
 
