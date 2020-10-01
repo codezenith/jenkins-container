@@ -34,8 +34,8 @@ ADD cacerts/*.crt /tmp/
 ADD get-docker.sh /tmp
 
 # Run conditional docker
-RUN if [ "$CERT" == "true" ] ; then mv /tmp/*.crt /usr/local/share/ca-certificates/ && update-ca-certificates ; fi
-RUN if [ "$DOCKER" == "true" ] ; then chmod +x /tmp/get-docker.sh && /bin/sh /tmp/get-docker.sh ; fi
+RUN if [ "$CERT" = "true" ] ; then mv /tmp/*.crt /usr/local/share/ca-certificates/ && update-ca-certificates ; fi
+RUN if [ "$DOCKER" = "true" ] ; then chmod +x /tmp/get-docker.sh && /bin/sh /tmp/get-docker.sh ; fi
 
 
 # Install plugins defined in plugins.txt
