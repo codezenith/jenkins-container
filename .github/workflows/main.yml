@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONTAINER_NAME: cz-jenkins
-      CATEGORY: jenkins-base
+      CATEGORY: jenkins-container
       GH_REGISTRY: docker.pkg.github.com/codezenith
       USERNAME: codezenith
 
